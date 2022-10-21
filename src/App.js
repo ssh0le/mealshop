@@ -1,24 +1,38 @@
-import logo from './logo.svg';
+import Header from './components/Layouts/Header';
 import './App.css';
+import styled from 'styled-components'
+import MealList from './components/Meals/MealsList';
+import Cart from './components/Cart/Cart';
+import { useState } from 'react';
+import CartProvider from './store/CartProvider';
+
+const AppWrapper = styled.div`
+  color: #fff;
+  background-color: #1A1C1A;
+  height: 100vh;
+
+  & button {
+    cursor: pointer;
+  }
+`
 
 function App() {
+  const [cartIsOpen, setCartIsOpen] = useState(false);
+
+    const openCart = () => {
+      setCartIsOpen(true);
+    }
+    const closeCart = () => {
+      setCartIsOpen(false);
+    }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CartProvider>
+      <AppWrapper className='App'>
+        {cartIsOpen && <Cart onClose={closeCart}></Cart>}
+        <Header onClick={openCart}></Header>
+        <MealList></MealList>
+      </AppWrapper>
+    </CartProvider>
   );
 }
 
